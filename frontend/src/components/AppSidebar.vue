@@ -12,7 +12,7 @@
     "
   >
     <CSidebarBrand>
-      <h3>BugFlix</h3>
+      <h3>Flo App</h3>
       <!-- <CIcon
         custom-class-name="sidebar-brand-full"
         :icon="logoNegative"

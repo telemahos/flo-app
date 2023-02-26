@@ -34,11 +34,46 @@ const routes = [
         name: 'Typography',
         component: () => import('@/views/theme/Typography.vue'),
       },
+      // Income
+      {
+        path: '/theme/incomelist',
+        name: 'IncomeList',
+        component: () => import('@/views/theme/IncomeList.vue'),
+      },
+      {
+        path: '/theme/incomeNew',
+        name: 'IncomeNew',
+        component: () => import('@/views/theme/IncomeNew.vue'),
+      },
+      {
+        path: '/theme/incomedetails',
+        name: 'IncomeDetails',
+        component: () => import('@/views/theme/IncomeDetails.vue'),
+      },
+      // FinCharts
+      {
+        path: '/theme/finchartlist',
+        name: 'FinchartList',
+        component: () => import('@/views/theme/FinchartList.vue'),
+      },
+      {
+        path: '/theme/finchartdetails/:id',
+        name: 'FinchartDetails',
+        component: () => import('@/views/theme/FinchartDetails.vue'),
+        props: true,
+      },
+      {
+        path: '/theme/finchartnew',
+        name: 'FinchartNew',
+        component: () => import('@/views/theme/FinchartNew.vue'),
+      },
+      // Dashboard
       {
         path: '/theme/mydashboard',
         name: 'mydashboard',
         component: () => import('@/views/theme/Mydashboard.vue'),
       },
+      // Projects
       {
         path: '/theme/projectlist',
         name: 'ProjectList',
@@ -55,6 +90,7 @@ const routes = [
         name: 'ProjectNew',
         component: () => import('@/views/theme/ProjectNew.vue'),
       },
+      // Members
       {
         path: '/theme/memberlist',
         name: 'MemberList',
@@ -70,6 +106,7 @@ const routes = [
         name: 'MemberProfile',
         component: () => import('@/views/theme/MemberProfile.vue'),
       },
+      // Tickets
       {
         path: '/theme/ticketlist',
         name: 'TicketList',
