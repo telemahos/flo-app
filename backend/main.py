@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from . import models
 from .database import engine
-from .controller import user, case, project, team_member, authendication
+from .controller import user, case, project, team_member, income, authendication
 from fastapi.middleware.cors import CORSMiddleware
 #import uvicorn
 from fastapi_pagination import add_pagination
@@ -17,9 +17,11 @@ models.Base.metadata.create_all(engine)
 
 app.include_router(authendication.router)
 app.include_router(user.router)
+app.include_router(income.router)
 app.include_router(case.router)
 app.include_router(project.router)
 app.include_router(team_member.router)
+
 
 
 
