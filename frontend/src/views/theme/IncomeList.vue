@@ -13,6 +13,53 @@
 
   <h3>KOSTAS {{ calcoulateIncome }}</h3>
 
+  <table>
+    <!-- Total Monthly Income -->
+    <tr>
+      <td title="ΣΥΝΟΛΟ">ΣΥΝ.</td>
+      <td>
+        {{ greekMonthName[selectByMonth] }} / {{ selectByYear }}
+      </td>
+      <td>{{ totalMorningIncome }} <b> €</b></td>
+      <!-- Πρ. έσοδα -->
+      <td>{{ totalLateIncome }} <b>€</b></td>
+      <!-- Βρ. έσοδα -->
+      <td>{{ totalMonthlyIncome }} <b>€</b></td>
+      <!-- Σύνολο -->
+      <td>[---.---] €</td>
+      <!-- Έξοδα -->
+      <td>[---.---] €</td>
+      <!-- Υπόλοιπο -->
+      <td>-</td>
+      <td>[---.---] €</td>
+      <!-- Φ.Π.Α. -->
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    <!-- Monthly Average -->
+    <tr>
+      <td title="ΜΕΣΟΣ ΟΡΟΣ">Μ.Ο.</td>
+      <td>{{ averageDays }}</td>
+      <td>{{ averageMorningIncome }} €</td>
+      <!-- Πρ. έσοδα -->
+      <td>{{ averageLateIncome }} €</td>
+      <!-- Βρ. έσοδα -->
+      <td>{{ averageDaylyincome }} €</td>
+      <!-- Σύνολο -->
+      <td>--- €</td>
+      <!-- Έξοδα -->
+      <td>--- €</td>
+      <!-- Υπόλοιπο -->
+      <td>-</td>
+      <td>--- €</td>
+      <!-- Φ.Π.Α. -->
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+  </table>
+
   <div>
     <CRow>
       <CCol :md="12">
@@ -29,28 +76,30 @@
                     <CTableHeaderCell class="text-center">
                       Hμερ.
                     </CTableHeaderCell>
-                    <CTableHeaderCell>Ζ</CTableHeaderCell>
-                    <CTableHeaderCell>POS</CTableHeaderCell>
                     <CTableHeaderCell class="text-center">
-                      Πρ. Βάρδια
+                      Πρωί
                     </CTableHeaderCell>
                     <CTableHeaderCell class="text-center"
-                      >Απογ. Βάρδια</CTableHeaderCell
+                      >Απογ.</CTableHeaderCell
                     >
-
+                    <CTableHeaderCell class="text-center">
+                      Σύνολο
+                    </CTableHeaderCell>
                     <CTableHeaderCell class="text-center"
                       >Έξοδα</CTableHeaderCell
                     >
                     <CTableHeaderCell class="text-center">
                       Υπόλοιπο
                     </CTableHeaderCell>
-                    <CTableHeaderCell class="text-center">
-                      Σύνολο
-                    </CTableHeaderCell>
+                    <CTableHeaderCell>Ζ</CTableHeaderCell>
+                    <CTableHeaderCell>Φ.Π.Α.</CTableHeaderCell>
+                    <!-- <CTableHeaderCell>POS</CTableHeaderCell> -->
+                    <CTableHeaderCell>Σημείωση</CTableHeaderCell>
+                    <CTableHeaderCell>Επεξ.</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
-                <CTableBody>
-                  <CTableRow
+                 <CTableBody>
+                  <!--<CTableRow
                     v-for="income in incomes"
                     v-bind:value="income.id"
                     v-bind:key="income.date"
@@ -64,12 +113,12 @@
                           income.service_income_1 + income.bar_income_1
                         }}</CLink>
                       </div>
-                      <div
+                     < ! -- <div
                         class="small text-medium-emphasis text-truncate"
                         style="max-width: 250px"
                       >
                         {{ income.description }}
-                      </div>
+                      </div> -- >
                     </CTableDataCell>
                     <CTableDataCell class="text-center">
                       <div>{{ income.due_date }}</div>
@@ -111,59 +160,14 @@
                     </CTableDataCell>
                     <CTableDataCell class="text-center">
                       <div>
-                        <!-- <AppOffcanvasTicketEdit v-bind:the_case="income" /> -->
+                        < ! -- <AppOffcanvasTicketEdit v-bind:the_case="income" /> -- >
                         <CButton color="dark" variant="ghost" size="sm"
                           >Edit</CButton
                         >
                       </div>
                     </CTableDataCell>
-                  </CTableRow>
+                  </CTableRow> -->
                   <CTableRow> </CTableRow>
-
-                  <!-- Total Monthly Income -->
-                  <tr>
-                    <td title="ΣΥΝΟΛΟ">ΣΥΝ.</td>
-                    <td>
-                      {{ greekMonthName[selectByMonth] }} / {{ selectByYear }}
-                    </td>
-                    <td>{{ totalMorningIncome }} <b>€</b></td>
-                    <!-- Πρ. έσοδα -->
-                    <td>{{ totalLateIncome }} <b>€</b></td>
-                    <!-- Βρ. έσοδα -->
-                    <td>{{ totalMonthlyIncome }} <b>€</b></td>
-                    <!-- Σύνολο -->
-                    <td>[11.123] €</td>
-                    <!-- Έξοδα -->
-                    <td>[3.123] €</td>
-                    <!-- Υπόλοιπο -->
-                    <td>-</td>
-                    <td>[235] €</td>
-                    <!-- Φ.Π.Α. -->
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                  <!-- Monthly Average -->
-                  <tr>
-                    <td title="ΜΕΣΟΣ ΟΡΟΣ">Μ.Ο.</td>
-                    <td>{{ averageDays }}</td>
-                    <td>{{ averageMorningIncome }} €</td>
-                    <!-- Πρ. έσοδα -->
-                    <td>{{ averageLateIncome }} €</td>
-                    <!-- Βρ. έσοδα -->
-                    <td>{{ averageDaylyincome }} €</td>
-                    <!-- Σύνολο -->
-                    <td>308 €</td>
-                    <!-- Έξοδα -->
-                    <td>93 €</td>
-                    <!-- Υπόλοιπο -->
-                    <td>-</td>
-                    <td>23 €</td>
-                    <!-- Φ.Π.Α. -->
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
                   <tr
                     v-for="(item, index) in this.allIncomes"
                     v-bind:key="index"
@@ -179,37 +183,30 @@
                       >
                         {{ item.id }}
                       </button>
-                      <!-- <button @click="showIncomeModalEdit = true, getCurrentIncome(item.id)">
-          <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-              <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
-          </svg>
-        </button> {{item.date}} setSlotDate(item.date) -->
-                    </td>
-                    <td>
+                      ---
                       <p>{{ moment(item.date).format('dd,DD/MM/YY') }}</p>
-                      <!-- <button @click="showIncomeModalEdit = true;">{{ item.date }}</button> -->
                     </td>
                     <td>
-                      <p>{{ morningIncome[index] }}</p>
+                      <p>{{ morningIncome[index] }}€</p>
                     </td>
                     <td>
-                      <p>{{ lateIncome[index] }}</p>
+                      <p>{{ lateIncome[index] }}€</p>
                     </td>
                     <td>
-                      <p class="totalIncome">
-                        <b>{{ totalDaylyIncome[index] }} </b>
+                      <p class="dailyTotalIncome">
+                        <b>{{ totalDaylyIncome[index] }}€</b>
                       </p>
                     </td>
                     <!--  colspan="2" -->
                     <td>
-                      <p class="outcome">125 <b></b></p>
+                      <p class="dailyTotalOutcome"><b>--- €</b></p>
                     </td>
                     <td>
-                      <p class="income"><b>329 €</b></p>
+                      <p class="income"><b>---  €</b></p>
                     </td>
                     <td>{{ item.z_count }} <b>€</b></td>
                     <td>{{ item.vat }} <b>€</b></td>
-                    <td>{{ item.pos }} <b>€</b></td>
+                    <!-- <td>{{ item.pos }} <b>€</b></td> -->
                     <td :title="item.notes">
                       <div class="scrollable">
                         {{ item.notes }}
@@ -222,9 +219,6 @@
                         @click="deleteIncome(item.id)"
                       >
                         Χ
-                        <!-- <svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-              <path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6" />
-          </svg> -->
                       </button>
                     </td>
                   </tr>
@@ -352,9 +346,6 @@ export default {
   // Mounted
   // ###########################################################
   mounted() {
-    
-    
-    // this.calcoulateIncome()
     // this.getAllOutcomes()
     console.log('TODAY IS THE MONTH: ', this.month)
     
@@ -362,29 +353,11 @@ export default {
   },
   // computed ###########################################################
   computed: {
-    // calcoulateIncome() {
-    //   return this.totalMonthlyIncome
-    // },
-  }, // computed
-
-  beforeUpdate() {
-    // Reset total Incomes before updating anything
-    this.totalMorningIncome = 0
-    this.totalLateIncome = 0
-    this.totalMonthlyIncome = 0
-  },
-
-  // Methods
-  // ###########################################################
-  methods: {
-    // BeforeMounted
     calcoulateIncome() {
       console.log('CALCOULATE INCOME 73!!')
-      // console.log('this.allIncome: ', this.allIncomes)
+      console.log('this.allIncome: ', this.allIncomes)
       for (let i = 0; i < this.allIncomes.length; i++) {
         // console.log('allIncome[i]#####: ' + this.allIncomes[i].id)
-        console.log('this.allIncomes[i]: ' + '737373')
-
         this.morningIncome[i] = parseFloat(
           this.allIncomes[i].service_income_1 + this.allIncomes[i].bar_income_1,
         ).toFixed(2)
@@ -414,6 +387,20 @@ export default {
       console.log('this.averageMorningIncome: ' + this.averageDaylyincome)
       return this.averageDaylyincome
     },
+  }, // computed
+
+  beforeUpdate() {
+    // Reset total Incomes before updating anything
+    this.totalMorningIncome = 0
+    this.totalLateIncome = 0
+    this.totalMonthlyIncome = 0
+  },
+
+  // Methods
+  // ###########################################################
+  methods: {
+    // BeforeMounted
+    
     // Get All INCOME from DB
     async getAllIncomes() {
       // console.log('apiURL2: ', this.apiURL)
@@ -435,11 +422,11 @@ export default {
           // console.log('list Income: ' + JSON.stringify(response.data))
           // handle success
           this.allIncomes = response.data
-          console.log('this.allIncomes: ' + this.allIncomes)
-          this.currentPage = response.data.page
+          // console.log('this.allIncomes: ' + this.allIncomes)
+          // this.currentPage = response.data.page
           // console.log('this.allIncomes: ' + JSON.stringify(this.currentPage))
-          this.perPage = response.data.size
-          this.total = response.data.total
+          // this.perPage = response.data.size
+          // this.total = response.data.total
           
         })
         .catch((error) => console.log(error))
@@ -612,3 +599,13 @@ export default {
   }, // methods
 }
 </script>
+
+
+<style>
+ .dailyTotalIncome {
+  color: yellowgreen;
+ }
+ .dailyTotalOutcome {
+  color: tomato;
+ }
+</style>
