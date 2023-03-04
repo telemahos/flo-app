@@ -395,7 +395,7 @@ export default [
     href: 'http://coreui.io/vue/',
     icon: { name: 'cil-cloud-download', class: 'text-white' },
     _class: 'bg-success text-white',
-    target: '_blank'
+    target: '_blank',
   },
   {
     component: 'CNavItem',
@@ -403,6 +403,6 @@ export default [
     href: 'http://coreui.io/pro/vue/',
     icon: { name: 'cil-layers', class: 'text-white' },
     _class: 'bg-danger text-white',
-    target: '_blank'
-  }
+    target: '_blank',
+  },
 ]

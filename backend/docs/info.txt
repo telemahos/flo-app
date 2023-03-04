@@ -67,6 +67,8 @@ ubuntu
 - npm install @vueform/multiselect 
 More info on(https://github.com/vueform/multiselect#styling)
 - npm install cors
+- npm install moment
+- npm install VueTailwindPagination
 
 
 

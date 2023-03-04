@@ -15,9 +15,9 @@ get_db = database.get_db
 async def all_incomes(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
     return income.income_get_all(db)
 
-# @router.get('/{year}/{month}/', response_model = List[schemas.ShowProject], status_code=200)
-# async def show_project_by_date(year: str, month: str , db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
-#     return project.project_show_by_date(year, month, db)
+@router.get('/{year}/{month}/', response_model = List[schemas.ShowIncome], status_code=200)
+async def show_income_by_date(year: str, month: str , db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
+    return income.income_show_by_date(year, month, db)
 
 @router.get('/{id}', status_code=200, response_model=schemas.ShowIncome)
 async def show_income(id: int, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):

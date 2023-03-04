@@ -25,14 +25,14 @@ def income_get_all(db: Session, limit: int = 10, offset: int = 0 ):
     income = db.query(models.Income).offset(offset).limit(limit).all()
     return income
 
-# Show a Specific Project by date year: str, month: str,
-# def project_show_by_date(year:str, month:str, db: Session, limit: int = 10, offset: int = 0 ):
-#     project = db.query(models.Project).filter(models.Project.date >= f'{year}-{month}-01', models.Project.date <= f'{year}-{month}-31').all()
-#     return project
+# Show a Specific income by date year: str, month: str,
+def income_show_by_date(year:str, month:str, db: Session, limit: int = 10, offset: int = 0 ):
+    income = db.query(models.Income).filter(models.Income.date >= f'{year}-{month}-01', models.Income.date <= f'{year}-{month}-31').all()
+    return income
 
 # Show a Specific Income by id
 def income_show(id: int, db: Session):
-    income = db.query(models.Income).filter(models.income.id == id).first()
+    income = db.query(models.Income).filter(models.Income.id == id).first()
     if not income:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'The income with ID {id} is not found')
     return income
@@ -52,7 +52,7 @@ def income_update(id: int, request: schemas.Income, db: Session):
 def income_destroy(id: int, db: Session):
     income = db.query(models.Income).filter(models.Income.id == id)
     if not income.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"The Project with id {id} is not found") 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"The Income with id {id} is not found") 
     income.delete(synchronize_session=False)
     db.commit()
     return "Income deleted!"

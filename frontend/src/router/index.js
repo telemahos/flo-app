@@ -41,31 +41,31 @@ const routes = [
         component: () => import('@/views/theme/IncomeList.vue'),
       },
       {
-        path: '/theme/incomeNew',
+        path: '/theme/incomeiew',
         name: 'IncomeNew',
-        component: () => import('@/views/theme/IncomeNew.vue'),
+        // component: () => import('@/views/theme/IncomeNew.vue'),
       },
       {
         path: '/theme/incomedetails',
         name: 'IncomeDetails',
-        component: () => import('@/views/theme/IncomeDetails.vue'),
+        // component: () => import('@/views/theme/IncomeDetails.vue'),
       },
       // FinCharts
       {
         path: '/theme/finchartlist',
         name: 'FinchartList',
-        component: () => import('@/views/theme/FinchartList.vue'),
+        // component: () => import('@/views/theme/FinchartList.vue'),
       },
       {
         path: '/theme/finchartdetails/:id',
         name: 'FinchartDetails',
-        component: () => import('@/views/theme/FinchartDetails.vue'),
-        props: true,
+        // component: () => import('@/views/theme/FinchartDetails.vue'),
+        // props: true,
       },
       {
         path: '/theme/finchartnew',
         name: 'FinchartNew',
-        component: () => import('@/views/theme/FinchartNew.vue'),
+        // component: () => import('@/views/theme/FinchartNew.vue'),
       },
       // Dashboard
       {
