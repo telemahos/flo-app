@@ -16,15 +16,13 @@
   <table>
     <!-- Total Monthly Income -->
     <tr>
-      <td title="ΣΥΝΟΛΟ">ΣΥΝ.</td>
-      <td>
-        {{ greekMonthName[selectByMonth] }} / {{ selectByYear }}
-      </td>
-      <td>{{ totalMorningIncome }} <b> €</b></td>
+      <td title="ΣΥΝΟΛΟ">ΣΥΝΟΛΟ</td>
+      <td>{{ greekMonthName[selectByMonth] }} / {{ selectByYear }}</td>
+      <td>--{{ dailyTotalMorningIncome }} <b>€</b></td>
       <!-- Πρ. έσοδα -->
-      <td>{{ totalLateIncome }} <b>€</b></td>
+      <td>--{{ dailyTotalLateIncome }} <b>€</b></td>
       <!-- Βρ. έσοδα -->
-      <td>{{ totalMonthlyIncome }} <b>€</b></td>
+      <td>--{{ totalMonthlyIncome }} <b>€</b></td>
       <!-- Σύνολο -->
       <td>[---.---] €</td>
       <!-- Έξοδα -->
@@ -98,7 +96,7 @@
                     <CTableHeaderCell>Επεξ.</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
-                 <CTableBody>
+                <CTableBody>
                   <!--<CTableRow
                     v-for="income in incomes"
                     v-bind:value="income.id"
@@ -187,14 +185,14 @@
                       <p>{{ moment(item.date).format('dd,DD/MM/YY') }}</p>
                     </td>
                     <td>
-                      <p>{{ morningIncome[index] }}€</p>
+                      <p>{{ formatPrice(dailyMorningIncome[index]) }}</p>
                     </td>
                     <td>
-                      <p>{{ lateIncome[index] }}€</p>
+                      <p>{{ formatPrice(dailyLateIncome[index]) }}</p>
                     </td>
                     <td>
                       <p class="dailyTotalIncome">
-                        <b>{{ totalDaylyIncome[index] }}€</b>
+                        {{ formatPrice(totalDaylyIncome[index]) }}
                       </p>
                     </td>
                     <!--  colspan="2" -->
@@ -202,7 +200,7 @@
                       <p class="dailyTotalOutcome"><b>--- €</b></p>
                     </td>
                     <td>
-                      <p class="income"><b>---  €</b></p>
+                      <p class="income"><b>--- €</b></p>
                     </td>
                     <td>{{ item.z_count }} <b>€</b></td>
                     <td>{{ item.vat }} <b>€</b></td>
@@ -288,14 +286,14 @@ export default {
       perPage: 15,
       total: 0,
       // Calculations Dayly
-      morningIncome: [],
-      lateIncome: [],
+      dailyMorningIncome: [],
+      dailyLateIncome: [],
       totalDaylyIncome: [],
       totalDaylyOutcome: 0,
       totalDaylyRest: 0,
       // Calculations Monthly
-      totalMorningIncome: 0,
-      totalLateIncome: 0,
+      dailyTotalMorningIncome: 0,
+      dailyTotalLateIncome: 0,
       totalMonthlyIncome: 0,
       // Average Calculations
       averageDays: 0,
@@ -348,42 +346,51 @@ export default {
   mounted() {
     // this.getAllOutcomes()
     console.log('TODAY IS THE MONTH: ', this.month)
-    
+
     // console.log("this.calcoulateIncome: ", this.averageDaylyincome)
   },
   // computed ###########################################################
   computed: {
     calcoulateIncome() {
-      console.log('CALCOULATE INCOME 73!!')
-      console.log('this.allIncome: ', this.allIncomes)
+      this.averageDays = this.allIncomes.length
+      // console.log('CALCOULATE INCOME 73!!')
+      // console.log('this.allIncome: ', this.allIncomes)
       for (let i = 0; i < this.allIncomes.length; i++) {
         // console.log('allIncome[i]#####: ' + this.allIncomes[i].id)
-        this.morningIncome[i] = parseFloat(
+        this.dailyMorningIncome[i] = parseFloat(
           this.allIncomes[i].service_income_1 + this.allIncomes[i].bar_income_1,
         ).toFixed(2)
-        this.totalMorningIncome += Math.round(this.morningIncome[i])
-        console.log('this.totalMorningIncome: ' + this.totalMorningIncome)
-        this.lateIncome[i] = parseFloat(
+        this.dailyTotalMorningIncome += Math.round(this.dailyMorningIncome[i])
+        // console.log('this.dailyTotalMorningIncome: ' + this.dailyTotalMorningIncome)
+        this.dailyLateIncome[i] = parseFloat(
           this.allIncomes[i].service_income_2 + this.allIncomes[i].bar_income_2,
         ).toFixed(2)
-        this.totalLateIncome += Math.round(this.lateIncome[i])
-        console.log('this.totalLateIncome ' + this.totalLateIncome)
+        this.dailyTotalLateIncome += Math.round(this.dailyLateIncome[i])
+        // console.log('this.dailyTotalLateIncome ' + this.dailyTotalLateIncome)
         this.totalDaylyIncome[i] =
-          parseFloat(this.morningIncome[i]) + parseFloat(this.lateIncome[i])
-        this.totalDaylyIncome[i] = this.totalDaylyIncome[i].toFixed(2)
+          parseFloat(this.dailyMorningIncome[i]) +
+          parseFloat(this.dailyLateIncome[i])
+        // this.totalDaylyIncome[i] = this.totalDaylyIncome[i].toFixed(2)
         this.totalMonthlyIncome += Math.round(this.totalDaylyIncome[i])
-        console.log('this.totalMonthlyIncome[i]: ' + this.totalMonthlyIncome)
+        // console.log('this.totalMonthlyIncome[i]: ' + this.totalMonthlyIncome)
+
+        // Avarage, to be contineud
+        this.averageMorningIncome = Math.round(
+          // this.dailyTotalMorningIncome / this.averageDays,
+          this.dailyTotalMorningIncome / [i + 1],
+        )
+        console.log('this.averageDays: ', this.averageDays)
+        console.log('this.averageMorningIncome: ' + this.averageMorningIncome)
+        this.averageLateIncome = Math.round(
+          // this.dailyTotalLateIncome / this.averageDays,
+          this.dailyTotalLateIncome / [i + 1],
+        )
+        this.averageDaylyincome = Math.round(
+          // this.totalMonthlyIncome / this.averageDays,
+          this.totalMonthlyIncome / [i + 1],
+        )
       }
-      this.averageDays = this.allIncomes.length
-      this.averageMorningIncome = Math.round(
-        this.totalMorningIncome / this.averageDays,
-      )
-      this.averageLateIncome = Math.round(
-        this.totalLateIncome / this.averageDays,
-      )
-      this.averageDaylyincome = Math.round(
-        this.totalMonthlyIncome / this.averageDays,
-      )
+
       console.log('this.averageMorningIncome: ' + this.averageDaylyincome)
       return this.averageDaylyincome
     },
@@ -391,16 +398,21 @@ export default {
 
   beforeUpdate() {
     // Reset total Incomes before updating anything
-    this.totalMorningIncome = 0
-    this.totalLateIncome = 0
+    this.dailyTotalMorningIncome = 0
+    this.dailyTotalLateIncome = 0
     this.totalMonthlyIncome = 0
   },
 
   // Methods
   // ###########################################################
   methods: {
+    // Price Format
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace('.', ',')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '€'
+    },
     // BeforeMounted
-    
+
     // Get All INCOME from DB
     async getAllIncomes() {
       // console.log('apiURL2: ', this.apiURL)
@@ -427,7 +439,6 @@ export default {
           // console.log('this.allIncomes: ' + JSON.stringify(this.currentPage))
           // this.perPage = response.data.size
           // this.total = response.data.total
-          
         })
         .catch((error) => console.log(error))
         // Calculate Sums of morning, evening and total Income of the Day
@@ -600,12 +611,14 @@ export default {
 }
 </script>
 
-
 <style>
- .dailyTotalIncome {
+.dailyTotalIncome {
   color: yellowgreen;
- }
- .dailyTotalOutcome {
+}
+.dailyTotalOutcome {
   color: tomato;
- }
+}
+.table > :not(caption) > * > * {
+  font-size: 14px;
+}
 </style>

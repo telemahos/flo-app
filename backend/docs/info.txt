@@ -22,6 +22,9 @@ gunicorn backend.main:app --workers 4 --worker-class uvicorn.workers.UvicornWork
 
 uvicorn backend.main:app --host 185.237.97.166 --port 8000 --workers 4
 
+-- Number Formater --
+npm install @coders-tm/vue-number-format
+from: https://vuejsexamples.com/easy-formatted-numbers-currency-and-percentage-with-input-directive-mask-for-vue-js/
 
 --- Run on server in background--- 
 https://www.dev2qa.com/how-to-run-node-js-server-in-background/?fbclid=IwAR2JS1SkAlFbhsak4csMYuVkuFRpxiGzi1wYKos_QZurQMxcQRbcWSkZpTM
