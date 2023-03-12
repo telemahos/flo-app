@@ -16,8 +16,8 @@ get_db = database.get_db
 async def all_outcome(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
     return outcome.get_all(db)
 
-@router.get('/{year}/{month}/', response_model=schemas.ShowOutcome, status_code=200)
-async def show_outcome_by_date(year: str, month: str , db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
+@router.get('/{year}/{month}/', response_model=List[schemas.Outcome], status_code=200)
+def show_outcome_by_date(year: str, month: str , db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
     return outcome.show_by_date(year, month, db)
 
 # Show a specific Outcome

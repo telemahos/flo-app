@@ -285,7 +285,7 @@ export default {
       currentPage: 1,
       perPage: 15,
       total: 0,
-      // Calculations Dayly
+      // Calculations Dayly Income
       dailyMorningIncome: [],
       dailyLateIncome: [],
       totalDaylyIncome: [],
@@ -304,6 +304,11 @@ export default {
       selectByMonth: '',
       selectByYear: '',
       dayjs: '',
+      // Outcome
+      monthlyOutcomeLength: '',
+      allOutcomes: '',
+      totalDailyOutcome: '',
+      // Months
       greekMonthName: [
         '0',
         'ΙΑΝ',
@@ -339,6 +344,7 @@ export default {
   // BeforeMounted
   // ###########################################################
   beforeMount() {
+    this.getAllOutcomes()
     this.getAllIncomes()
   },
   // Mounted
@@ -354,7 +360,6 @@ export default {
     calcoulateIncome() {
       this.averageDays = this.allIncomes.length
       // console.log('CALCOULATE INCOME 73!!')
-      // console.log('this.allIncome: ', this.allIncomes)
       for (let i = 0; i < this.allIncomes.length; i++) {
         // console.log('allIncome[i]#####: ' + this.allIncomes[i].id)
         this.dailyMorningIncome[i] = parseFloat(
@@ -374,13 +379,19 @@ export default {
         this.totalMonthlyIncome += Math.round(this.totalDaylyIncome[i])
         // console.log('this.totalMonthlyIncome[i]: ' + this.totalMonthlyIncome)
 
+        // Calculate Daily Outcome, send two parameter TotalDailyIncome and the date
+        this.calcoulateDailyOutcome(
+          this.totalDaylyIncome[i],
+          this.allIncomes[i].date
+        )
+
         // Avarage, to be contineud
         this.averageMorningIncome = Math.round(
           // this.dailyTotalMorningIncome / this.averageDays,
           this.dailyTotalMorningIncome / [i + 1],
         )
-        console.log('this.averageDays: ', this.averageDays)
-        console.log('this.averageMorningIncome: ' + this.averageMorningIncome)
+        // console.log('this.averageDays: ', this.averageDays)
+        // console.log('this.averageMorningIncome: ' + this.averageMorningIncome)
         this.averageLateIncome = Math.round(
           // this.dailyTotalLateIncome / this.averageDays,
           this.dailyTotalLateIncome / [i + 1],
@@ -391,7 +402,7 @@ export default {
         )
       }
 
-      console.log('this.averageMorningIncome: ' + this.averageDaylyincome)
+      // console.log('this.averageMorningIncome: ' + this.averageDaylyincome)
       return this.averageDaylyincome
     },
   }, // computed
@@ -406,12 +417,11 @@ export default {
   // Methods
   // ###########################################################
   methods: {
-    // Price Format
+    // Currency Formater
     formatPrice(value) {
       let val = (value / 1).toFixed(2).replace('.', ',')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '€'
     },
-    // BeforeMounted
 
     // Get All INCOME from DB
     async getAllIncomes() {
@@ -501,7 +511,9 @@ export default {
         .then((response) => {
           // console.log('list Income: ' + JSON.stringify(response.data))
           // handle success
-          this.allOutcomes = response.data.items
+          this.allOutcomes = response.data
+          this.monthlyOutcomeLength = this.allOutcomes.length
+          console.log('monthlyOutcomeLength: ', this.monthlyOutcomeLength)
           // this.currentPage = response.data.page
           // this.perPage = response.data.size
           // this.total = response.data.total
@@ -510,6 +522,26 @@ export default {
         .catch((error) => console.log(error))
         // Calculate Sums of morning, evening and total Income of the Day
         .finally(() => {})
+    },
+
+    // Calculate Daily Outcome
+    calcoulateDailyOutcome(dailyIncome, incomeDate) {
+      // console.log("DAILYINCOME: ",  dailyIncome)
+      // console.log("INCOMEDATE1: ",  incomeDate)
+      this.totalDailyOutcome = 0
+      
+      if ( this.monthlyOutcomeLength > 0 ) {
+        for (let i = 0; i < this.monthlyOutcomeLength; i++) {
+          // console.log('this.allOutcomes.data.date[i]: ', this.allOutcomes[i].date)
+          if ( this.allOutcomes[i].date === incomeDate ) {
+            console.log("INCOMEDATE1: ",  incomeDate)
+            console.log('INCOMEDATE2: ', this.allOutcomes[i].date)
+            this.totalDailyOutcome += this.allOutcomes[i].cost
+            console.log('TOTAL DAILY OUTCOME: ', this.totalDailyOutcome)
+            console.log('-------------------')
+          }
+        }
+      }
     },
 
     showIncomeByMonth() {
@@ -525,8 +557,8 @@ export default {
         // console.log("CONCAT MONTH: ", this.month)
       }
       // Call getAllIncomes() to get next data
-      this.getAllIncomes()
       this.getAllOutcomes()
+      this.getAllIncomes()
     },
 
     percentage(key1, key2) {
@@ -538,12 +570,12 @@ export default {
     setSlotDate(theDate) {
       // dayjs.locale('gr')
       // this.currentDate = dayjs(theDate)
-      console.log('theDate: ' + theDate)
+      // console.log('theDate: ' + theDate)
       return this.currentDate.format('dd,DD.MM.YY')
     },
 
     getCurrentIncome(id) {
-      console.log('getCurrentIncome MeTHODo:: ' + id)
+      // console.log('getCurrentIncome MeTHODo:: ' + id)
       axios
         .get(`${this.$store.state.apiURL}/income/` + id, {
           headers: {
@@ -551,20 +583,20 @@ export default {
           },
         })
         .then((response) => {
-          console.log('singleIncome: ' + response.data)
+          // console.log('singleIncome: ' + response.data)
           // handle success
           this.singleIncome = response.data
           this.shiftStaff = this.singleIncome.the_shift
         })
         .catch((error) => console.log(error))
         .finally(() => {
-          console.log('singleIncome.shift_id' + this.singleIncome.shift_id)
+          // console.log('singleIncome.shift_id' + this.singleIncome.shift_id)
           this.getCurrentShift(this.singleIncome.shift_id)
         })
     },
 
     getCurrentShift(id) {
-      console.log('getCurrentShift ID:: ' + id)
+      // console.log('getCurrentShift ID:: ' + id)
       axios
         .get(`${this.$store.state.apiURL}/shift/` + id, {
           headers: {
@@ -572,13 +604,13 @@ export default {
           },
         })
         .then((response) => {
-          console.log('currentShift' + response.data)
+          // console.log('currentShift' + response.data)
           // handle success
           this.currentShift = response.data
         })
         .catch((error) => console.log(error))
         .finally(() => {
-          console.log('currentShift' + JSON.stringify(this.currentShift))
+          // console.log('currentShift' + JSON.stringify(this.currentShift))
         })
     },
 
