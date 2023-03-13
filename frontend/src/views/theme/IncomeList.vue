@@ -18,11 +18,11 @@
     <tr>
       <td title="ΣΥΝΟΛΟ">ΣΥΝΟΛΟ</td>
       <td>{{ greekMonthName[selectByMonth] }} / {{ selectByYear }}</td>
-      <td>--{{ dailyTotalMorningIncome }} <b>€</b></td>
+      <td>--{{ formatPrice(dailyTotalMorningIncome) }}</td>
       <!-- Πρ. έσοδα -->
-      <td>--{{ dailyTotalLateIncome }} <b>€</b></td>
+      <td>--{{ formatPrice(dailyTotalLateIncome) }}</td>
       <!-- Βρ. έσοδα -->
-      <td>--{{ totalMonthlyIncome }} <b>€</b></td>
+      <td>--{{ formatPrice(totalMonthlyIncome) }}</td>
       <!-- Σύνολο -->
       <td>[---.---] €</td>
       <!-- Έξοδα -->
@@ -39,11 +39,11 @@
     <tr>
       <td title="ΜΕΣΟΣ ΟΡΟΣ">Μ.Ο.</td>
       <td>{{ averageDays }}</td>
-      <td>{{ averageMorningIncome }} €</td>
+      <td>{{ formatPrice(averageMorningIncome) }} €</td>
       <!-- Πρ. έσοδα -->
-      <td>{{ averageLateIncome }} €</td>
+      <td>{{ formatPrice(averageLateIncome) }} €</td>
       <!-- Βρ. έσοδα -->
-      <td>{{ averageDaylyincome }} €</td>
+      <td>{{ formatPrice(averageDaylyincome) }} €</td>
       <!-- Σύνολο -->
       <td>--- €</td>
       <!-- Έξοδα -->
@@ -181,29 +181,36 @@
                       >
                         {{ item.id }}
                       </button>
-                      ---
-                      <p>{{ moment(item.date).format('dd,DD/MM/YY') }}</p>
+                      {{ moment(item.date).format('dd,DD/MM/YY') }}
                     </td>
                     <td>
-                      <p>{{ formatPrice(dailyMorningIncome[index]) }}</p>
+                      {{ formatPrice(dailyMorningIncome[index]) }}
                     </td>
                     <td>
-                      <p>{{ formatPrice(dailyLateIncome[index]) }}</p>
+                      {{ formatPrice(dailyLateIncome[index]) }}
                     </td>
                     <td>
-                      <p class="dailyTotalIncome">
+                      <div class="dailyTotalIncome">
                         {{ formatPrice(totalDaylyIncome[index]) }}
-                      </p>
-                    </td>
-                    <!--  colspan="2" -->
-                    <td>
-                      <p class="dailyTotalOutcome"><b>--- €</b></p>
+                      </div>
                     </td>
                     <td>
-                      <p class="income"><b>--- €</b></p>
+                      <div class="dailyTotalOutcome">
+                        {{ formatPrice(dictTotalDailyOutcome[item.date]) }}
+                      </div>
                     </td>
-                    <td>{{ item.z_count }} <b>€</b></td>
-                    <td>{{ item.vat }} <b>€</b></td>
+                    <td>
+                      <div class="income">
+                        {{
+                          formatPrice(
+                            totalDaylyIncome[index] -
+                              dictTotalDailyOutcome[item.date],
+                          )
+                        }}
+                      </div>
+                    </td>
+                    <td>{{ formatPrice(item.z_count) }}</td>
+                    <td>{{ formatPrice(item.vat) }}</td>
                     <!-- <td>{{ item.pos }} <b>€</b></td> -->
                     <td :title="item.notes">
                       <div class="scrollable">
@@ -308,6 +315,9 @@ export default {
       monthlyOutcomeLength: '',
       allOutcomes: '',
       totalDailyOutcome: '',
+      dictTotalDailyOutcome: {},
+      // Income
+      dictTotalDailyIncome: {},
       // Months
       greekMonthName: [
         '0',
@@ -382,7 +392,7 @@ export default {
         // Calculate Daily Outcome, send two parameter TotalDailyIncome and the date
         this.calcoulateDailyOutcome(
           this.totalDaylyIncome[i],
-          this.allIncomes[i].date
+          this.allIncomes[i].date,
         )
 
         // Avarage, to be contineud
@@ -514,6 +524,26 @@ export default {
           this.allOutcomes = response.data
           this.monthlyOutcomeLength = this.allOutcomes.length
           console.log('monthlyOutcomeLength: ', this.monthlyOutcomeLength)
+          // add to a Dictionary all daily expenses as a sum (dictTotalDailyOutcome)
+          if (this.monthlyOutcomeLength > 0) {
+            for (let i = 0; i < this.monthlyOutcomeLength; i++) {
+              if (this.allOutcomes[i].date in this.dictTotalDailyOutcome) {
+                this.dictTotalDailyOutcome[this.allOutcomes[i].date] +=
+                  this.allOutcomes[i].cost
+              } else {
+                this.dictTotalDailyOutcome[this.allOutcomes[i].date] =
+                  this.allOutcomes[i].cost
+              }
+              console.log('INCOMEDATE2: ', this.allOutcomes[i].date)
+              console.log(
+                'TOTAL DAILY OUTCOME: ',
+                this.dictTotalDailyOutcome[this.allOutcomes[i].date],
+              )
+              console.log('-------------------', [i])
+            }
+          }
+
+          //
           // this.currentPage = response.data.page
           // this.perPage = response.data.size
           // this.total = response.data.total
@@ -529,19 +559,6 @@ export default {
       // console.log("DAILYINCOME: ",  dailyIncome)
       // console.log("INCOMEDATE1: ",  incomeDate)
       this.totalDailyOutcome = 0
-      
-      if ( this.monthlyOutcomeLength > 0 ) {
-        for (let i = 0; i < this.monthlyOutcomeLength; i++) {
-          // console.log('this.allOutcomes.data.date[i]: ', this.allOutcomes[i].date)
-          if ( this.allOutcomes[i].date === incomeDate ) {
-            console.log("INCOMEDATE1: ",  incomeDate)
-            console.log('INCOMEDATE2: ', this.allOutcomes[i].date)
-            this.totalDailyOutcome += this.allOutcomes[i].cost
-            console.log('TOTAL DAILY OUTCOME: ', this.totalDailyOutcome)
-            console.log('-------------------')
-          }
-        }
-      }
     },
 
     showIncomeByMonth() {
