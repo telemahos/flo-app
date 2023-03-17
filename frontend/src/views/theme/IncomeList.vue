@@ -1,62 +1,56 @@
 <template>
   <div>
     <CRow>
-      <CCol :md="12">
-        <!-- <h2>Projects</h2> -->
+      <CCol :md="2">
         <CLink href="#/theme/incomenew"
           ><h5><CBadge color="info">Νέο Έσοδα+</CBadge></h5></CLink
         >
-        <!-- <br /><br /><br /> -->
       </CCol>
     </CRow>
   </div>
 
-  <h3>KOSTAS {{ calcoulateIncome }}</h3>
+  {{ calcoulateIncome }}
+  <!-- Total Monthly Income -->
+  <h3>ΣΥΝΟΛΟ ΜΗΝΑ: {{ greekMonthName[selectByMonth] }} / {{ selectByYear }} - ΗΜΕΡΕΣ: {{ averageDays }}</h3>
+  <!-- <CWidgetIncome /> -->
 
-  <table>
-    <!-- Total Monthly Income -->
-    <tr>
-      <td title="ΣΥΝΟΛΟ">ΣΥΝΟΛΟ</td>
-      <td>{{ greekMonthName[selectByMonth] }} / {{ selectByYear }}</td>
-      <td>--{{ formatPrice(dailyTotalMorningIncome) }}</td>
-      <!-- Πρ. έσοδα -->
-      <td>--{{ formatPrice(dailyTotalLateIncome) }}</td>
-      <!-- Βρ. έσοδα -->
-      <td>--{{ formatPrice(totalMonthlyIncome) }}</td>
-      <!-- Σύνολο -->
-      <td>[---.---] €</td>
-      <!-- Έξοδα -->
-      <td>[---.---] €</td>
-      <!-- Υπόλοιπο -->
-      <td>-</td>
-      <td>[---.---] €</td>
-      <!-- Φ.Π.Α. -->
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-    </tr>
-    <!-- Monthly Average -->
-    <tr>
-      <td title="ΜΕΣΟΣ ΟΡΟΣ">Μ.Ο.</td>
-      <td>{{ averageDays }}</td>
-      <td>{{ formatPrice(averageMorningIncome) }} €</td>
-      <!-- Πρ. έσοδα -->
-      <td>{{ formatPrice(averageLateIncome) }} €</td>
-      <!-- Βρ. έσοδα -->
-      <td>{{ formatPrice(averageDaylyincome) }} €</td>
-      <!-- Σύνολο -->
-      <td>--- €</td>
-      <!-- Έξοδα -->
-      <td>--- €</td>
-      <!-- Υπόλοιπο -->
-      <td>-</td>
-      <td>--- €</td>
-      <!-- Φ.Π.Α. -->
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-    </tr>
-  </table>
+  <CRow>
+    <CCol :xs="3">
+      <CWidgetStatsB class="mb-3" :progress="{ color: 'secondary', value: 100 }">
+        <template #text>Μ.Ο. {{ formatPrice(averageMorningIncome) }}</template>
+        <template #title>ΠΡΩΤΗ ΒΑΡΔΙΑ</template>
+        <template #value>
+          {{ formatPrice(dailyTotalMorningIncome) }}
+        </template>
+      </CWidgetStatsB>
+    </CCol>
+    <CCol :xs="3">
+      <CWidgetStatsB class="mb-3" :progress="{ color: 'info', value: 100 }">
+        <template #text>Μ.Ο. {{ formatPrice(averageLateIncome) }}</template>
+        <template #title>ΔΕΥΤΕΡΗ ΒΑΡΔΙΑ</template>
+        <template #value>
+          {{ formatPrice(dailyTotalLateIncome) }}
+        </template>
+      </CWidgetStatsB>
+    </CCol>
+    <CCol :xs="3">
+      <CWidgetStatsB class="mb-3" :progress="{ color: 'danger', value: 100 }">
+        <template #text>Widget helper text</template>
+        <template #title>ΕΞΟΔΑ ΜΗΝΑ</template>
+        <template #value>$98.111,00</template>
+      </CWidgetStatsB>
+    </CCol>
+    <CCol :xs="3">
+      <CWidgetStatsB
+        class="mb-3"
+        :progress="{ color: 'success', value: 100}"
+        >
+        <template #text>Μ.Ο. {{ formatPrice(averageDaylyincome) }}</template>
+        <template #title>ΕΣΟΔΑ ΜΗΝΑ</template>
+        <template #value>{{ formatPrice(totalMonthlyIncome) }}</template>
+      </CWidgetStatsB>
+    </CCol>
+  </CRow>
 
   <div>
     <CRow>
@@ -65,12 +59,15 @@
           <CCardBody>
             <CRow>
               <CCol :sm="5">
-                <h4 id="traffic" class="card-title mb-0">Έσοδα</h4>
+                <h4 id="traffic" class="card-title mb-0">ΜΗΝΑΣ</h4>
                 <!-- <div class="small text-medium-emphasis">October 2022</div> -->
               </CCol>
               <CTable align="middle" class="mb-0 border" hover responsive>
                 <CTableHead color="light">
                   <CTableRow>
+                    <CTableHeaderCell class="text-center">
+                      A/A
+                    </CTableHeaderCell>
                     <CTableHeaderCell class="text-center">
                       Hμερ.
                     </CTableHeaderCell>
@@ -181,7 +178,9 @@
                       >
                         {{ item.id }}
                       </button>
-                      {{ moment(item.date).format('dd,DD/MM/YY') }}
+                    </td>
+                    <td class="small">
+                      {{ moment(item.date).format('dd DD') }}
                     </td>
                     <td>
                       {{ formatPrice(dailyMorningIncome[index]) }}
@@ -195,8 +194,14 @@
                       </div>
                     </td>
                     <td>
-                      <div class="dailyTotalOutcome">
+                      <div
+                        v-if="!isNaN(dictTotalDailyOutcome[item.date])"
+                        class="dailyTotalOutcome"
+                      >
                         {{ formatPrice(dictTotalDailyOutcome[item.date]) }}
+                      </div>
+                      <div class="dailyTotalOutcome" v-else>
+                        {{ formatPrice(0) }}
                       </div>
                     </td>
                     <td>
@@ -241,11 +246,13 @@
 // import provide from 'vue'
 import axios from 'axios'
 import moment from 'moment'
+// import CWidgetIncome from '../widgets/WidgetIncome.vue'
 // import AppOffcanvasTicketEdit from '../../components/AppOffcanvasTicketEdit.vue'
 
 export default {
   name: 'IncomeList',
   components: {
+    // CWidgetIncome,
     // ModalOutcome,
     // ModalIncome,
     // ModalIncomeEdit,
@@ -317,7 +324,7 @@ export default {
       totalDailyOutcome: '',
       dictTotalDailyOutcome: {},
       // Income
-      dictTotalDailyIncome: {},
+      // dictTotalDailyIncome: {},
       // Months
       greekMonthName: [
         '0',
@@ -388,12 +395,6 @@ export default {
         // this.totalDaylyIncome[i] = this.totalDaylyIncome[i].toFixed(2)
         this.totalMonthlyIncome += Math.round(this.totalDaylyIncome[i])
         // console.log('this.totalMonthlyIncome[i]: ' + this.totalMonthlyIncome)
-
-        // Calculate Daily Outcome, send two parameter TotalDailyIncome and the date
-        this.calcoulateDailyOutcome(
-          this.totalDaylyIncome[i],
-          this.allIncomes[i].date,
-        )
 
         // Avarage, to be contineud
         this.averageMorningIncome = Math.round(
@@ -554,13 +555,6 @@ export default {
         .finally(() => {})
     },
 
-    // Calculate Daily Outcome
-    calcoulateDailyOutcome(dailyIncome, incomeDate) {
-      // console.log("DAILYINCOME: ",  dailyIncome)
-      // console.log("INCOMEDATE1: ",  incomeDate)
-      this.totalDailyOutcome = 0
-    },
-
     showIncomeByMonth() {
       this.month = this.selectByMonth
       this.year = this.selectByYear
@@ -669,5 +663,8 @@ export default {
 }
 .table > :not(caption) > * > * {
   font-size: 14px;
+}
+td.small {
+  font-size: 9px;
 }
 </style>
