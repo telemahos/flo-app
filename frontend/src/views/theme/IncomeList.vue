@@ -11,14 +11,19 @@
 
   {{ calcoulateIncome }}
   <!-- Total Monthly Income -->
-  <h3>ΣΥΝΟΛΟ ΜΗΝΑ: {{ greekMonthName[selectByMonth] }} / {{ selectByYear }} - ΗΜΕΡΕΣ: {{ averageDays }}</h3>
+  <h3>
+     {{ this.month }} {{ greekMonthName[this.month] }} / {{ selectByYear }}
+  </h3>
   <!-- <CWidgetIncome /> -->
 
   <CRow>
     <CCol :xs="3">
-      <CWidgetStatsB class="mb-3" :progress="{ color: 'secondary', value: 100 }">
+      <CWidgetStatsB
+        class="mb-3"
+        :progress="{ color: 'secondary', value: 100 }"
+      >
         <template #text>Μ.Ο. {{ formatPrice(averageMorningIncome) }}</template>
-        <template #title>ΠΡΩΤΗ ΒΑΡΔΙΑ</template>
+        <template #title>Α΄ ΒΑΡΔΙΑ</template>
         <template #value>
           {{ formatPrice(dailyTotalMorningIncome) }}
         </template>
@@ -27,7 +32,7 @@
     <CCol :xs="3">
       <CWidgetStatsB class="mb-3" :progress="{ color: 'info', value: 100 }">
         <template #text>Μ.Ο. {{ formatPrice(averageLateIncome) }}</template>
-        <template #title>ΔΕΥΤΕΡΗ ΒΑΡΔΙΑ</template>
+        <template #title>Β΄ ΒΑΡΔΙΑ</template>
         <template #value>
           {{ formatPrice(dailyTotalLateIncome) }}
         </template>
@@ -36,21 +41,75 @@
     <CCol :xs="3">
       <CWidgetStatsB class="mb-3" :progress="{ color: 'danger', value: 100 }">
         <template #text>Widget helper text</template>
-        <template #title>ΕΞΟΔΑ ΜΗΝΑ</template>
+        <template #title>Μ.ΕΞΟΔΑ</template>
         <template #value>$98.111,00</template>
       </CWidgetStatsB>
     </CCol>
     <CCol :xs="3">
-      <CWidgetStatsB
-        class="mb-3"
-        :progress="{ color: 'success', value: 100}"
-        >
+      <CWidgetStatsB class="mb-3" :progress="{ color: 'success', value: 100 }">
         <template #text>Μ.Ο. {{ formatPrice(averageDaylyincome) }}</template>
-        <template #title>ΕΣΟΔΑ ΜΗΝΑ</template>
+        <template #title>Μ. ΑΚ. ΕΣΟΔΑ</template>
         <template #value>{{ formatPrice(totalMonthlyIncome) }}</template>
       </CWidgetStatsB>
     </CCol>
   </CRow>
+
+  <!-- PAGINATION -->
+  <hr>
+  <div class="row g-3 justify-content-end">   
+    <div class="col-md-2">
+      <label class="visually-hidden" for="selectByMonth">SelectByMonth</label>
+      <CFormSelect class="form-select form-select-sm" aria-label="Default select example" id="selectByMonth" name="selectByMonth" v-model="selectByMonth">
+        <!-- <option disabled value>Σερβ1...</option> -->
+        <option :selected="month === 1" value="1">Ιανουάριος</option>
+        <option :selected="month === 2" value="2">Φεβρουάριος</option>
+        <option :selected="month === 3" value="3">Μάρτιος</option>
+        <option :selected="month === 4" value="4">Απρίλιος</option>
+        <option :selected="month === 5" value="5">Μάιος</option>
+        <option :selected="month === 6" value="6">Ιούνιος</option>
+        <option :selected="month === 7" value="7">Ιούλιος</option>
+        <option :selected="month === 8" value="8">Αύγουστος</option>
+        <option :selected="month === 9" value="9">Σεπτέμβριος</option>
+        <option :selected="month === 10" value="10">Οκτώβριος</option>
+        <option :selected="month === 11" value="11">Νοέμβριος</option>
+        <option :selected="month === 12" value="12">Δεκέμβριος</option>
+      </CFormSelect>
+    </div>
+
+    <div class="col-md-2">
+      <label class="visually-hidden" for="selectByMonth">SelectByMonth</label>
+      <!-- Year -->
+      <CFormSelect class="form-select form-select-sm" aria-label="Default select example" id="selectByYear" name="selectByYear" v-model="selectByYear">
+        <!-- <option disabled value>Σερβ1...</option> -->
+        <option :selected="year === 2021" value="2021">2021</option>
+        <option :selected="year === 2022" value="2022">2022</option>
+        <option :selected="year === 2023" value="2023">2023</option>
+        <option :selected="year === 2024" value="2024">2024</option>
+        <option :selected="year === 2025" value="2025">2025</option>
+        <option :selected="year === 2026" value="2026">2026</option>
+      </CFormSelect>
+    </div>
+
+    <div class="col-md-2">
+      <label class="visually-hidden" for="perPage">perPage</label>
+      <!-- Year -->
+      <CFormSelect class="form-select form-select-sm" aria-label="Default select example" id="perPage" name="perPage" v-model="perPage">
+        <!-- <option disabled value>Σερβ1...</option> -->
+        <option :selected="perPage === 5" value="5">5</option>
+        <option :selected="perPage === 10" value="10">10</option>
+        <option :selected="perPage === 15" value="15">15</option>
+        <option :selected="perPage === 20" value="20">20</option>
+        <option :selected="perPage === 31" value="31">ΟΛΑ</option>
+      </CFormSelect>
+    </div>
+
+    <!-- Btn OutCome -->
+    <div class="col-md-2">
+      <button class="btn btn-primary" @click="showIncomeByMonth()" type="submit">Επιλογή</button>
+    </div>
+  </div>
+  <hr>
+  <!-- END PAGINATION -->
 
   <div>
     <CRow>
@@ -59,7 +118,7 @@
           <CCardBody>
             <CRow>
               <CCol :sm="5">
-                <h4 id="traffic" class="card-title mb-0">ΜΗΝΑΣ</h4>
+                <h4 id="traffic" class="card-title mb-0"></h4>
                 <!-- <div class="small text-medium-emphasis">October 2022</div> -->
               </CCol>
               <CTable align="middle" class="mb-0 border" hover responsive>
@@ -78,13 +137,13 @@
                       >Απογ.</CTableHeaderCell
                     >
                     <CTableHeaderCell class="text-center">
-                      Σύνολο
+                      Ακαθ. Έσοδα
                     </CTableHeaderCell>
                     <CTableHeaderCell class="text-center"
                       >Έξοδα</CTableHeaderCell
                     >
                     <CTableHeaderCell class="text-center">
-                      Υπόλοιπο
+                      Καθ. Έσοδα
                     </CTableHeaderCell>
                     <CTableHeaderCell>Ζ</CTableHeaderCell>
                     <CTableHeaderCell>Φ.Π.Α.</CTableHeaderCell>
@@ -357,6 +416,7 @@ export default {
     this.selectByYear = this.year
     console.log('THIS YEAR: ' + this.year)
     console.log('THIS selectByYear: ' + this.selectByYear)
+    console.log('THIS selectByMonth: ' + this.selectByMonth)
   },
   // BeforeMounted
   // ###########################################################
@@ -412,7 +472,6 @@ export default {
           this.totalMonthlyIncome / [i + 1],
         )
       }
-
       // console.log('this.averageMorningIncome: ' + this.averageDaylyincome)
       return this.averageDaylyincome
     },
