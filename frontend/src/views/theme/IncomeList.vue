@@ -104,7 +104,7 @@
     </div>
 
     <!-- Btn OutCome -->
-    <div class="col-md-2">
+    <div class="col-md-1">
       <button class="btn btn-primary" @click="showIncomeByMonth()" type="submit">Επιλογή</button>
     </div>
   </div>
