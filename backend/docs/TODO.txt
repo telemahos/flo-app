@@ -12,6 +12,18 @@
 - User Profile
 - Header-> Logged in as: Admin/User etc.
 
+*** INCOME ***
+- Pagination does not work
+- Smart Table solution to look for
+- Edit Income not modal but with Offcanvas
+- A solution to move all the code from computed to a method
+- set the correct date when the app is loaded
+- 
+
+*** OUTCOME ***
+
+*** STAFF ***
+
 *** DASHBOARD ***
 
 
@@ -36,6 +48,7 @@
 - BUG: On Ticket edit dates, projects and Owner isn't captured
 - Ticket History
 - Add Attachmend files
+
 
 
 

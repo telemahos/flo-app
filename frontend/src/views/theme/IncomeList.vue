@@ -12,7 +12,7 @@
   {{ calcoulateIncome }}
   <!-- Total Monthly Income -->
   <h3>
-     {{ this.month }} {{ greekMonthName[this.month] }} / {{ selectByYear }}
+    {{ this.month }} {{ greekMonthName[this.month] }} / {{ selectByYear }}
   </h3>
   <!-- <CWidgetIncome /> -->
 
@@ -55,11 +55,17 @@
   </CRow>
 
   <!-- PAGINATION -->
-  <hr>
-  <div class="row g-3 justify-content-end">   
+  <hr />
+  <div class="row g-3 justify-content-end">
     <div class="col-md-2">
       <label class="visually-hidden" for="selectByMonth">SelectByMonth</label>
-      <CFormSelect class="form-select form-select-sm" aria-label="Default select example" id="selectByMonth" name="selectByMonth" v-model="selectByMonth">
+      <CFormSelect
+        class="form-select form-select-sm"
+        aria-label="Default select example"
+        id="selectByMonth"
+        name="selectByMonth"
+        v-model="selectByMonth"
+      >
         <!-- <option disabled value>Σερβ1...</option> -->
         <option :selected="month === 1" value="1">Ιανουάριος</option>
         <option :selected="month === 2" value="2">Φεβρουάριος</option>
@@ -79,7 +85,13 @@
     <div class="col-md-2">
       <label class="visually-hidden" for="selectByMonth">SelectByMonth</label>
       <!-- Year -->
-      <CFormSelect class="form-select form-select-sm" aria-label="Default select example" id="selectByYear" name="selectByYear" v-model="selectByYear">
+      <CFormSelect
+        class="form-select form-select-sm"
+        aria-label="Default select example"
+        id="selectByYear"
+        name="selectByYear"
+        v-model="selectByYear"
+      >
         <!-- <option disabled value>Σερβ1...</option> -->
         <option :selected="year === 2021" value="2021">2021</option>
         <option :selected="year === 2022" value="2022">2022</option>
@@ -93,7 +105,13 @@
     <div class="col-md-2">
       <label class="visually-hidden" for="perPage">perPage</label>
       <!-- Year -->
-      <CFormSelect class="form-select form-select-sm" aria-label="Default select example" id="perPage" name="perPage" v-model="perPage">
+      <CFormSelect
+        class="form-select form-select-sm"
+        aria-label="Default select example"
+        id="perPage"
+        name="perPage"
+        v-model="perPage"
+      >
         <!-- <option disabled value>Σερβ1...</option> -->
         <option :selected="perPage === 5" value="5">5</option>
         <option :selected="perPage === 10" value="10">10</option>
@@ -105,10 +123,16 @@
 
     <!-- Btn OutCome -->
     <div class="col-md-1">
-      <button class="btn btn-primary" @click="showIncomeByMonth()" type="submit">Επιλογή</button>
+      <button
+        class="btn btn-primary"
+        @click="showIncomeByMonth()"
+        type="submit"
+      >
+        Επιλογή
+      </button>
     </div>
   </div>
-  <hr>
+  <hr />
   <!-- END PAGINATION -->
 
   <div>
@@ -299,12 +323,21 @@
       </CCol>
     </CRow>
   </div>
+
+  <!-- <VueTailwindPagination
+    :current="currentPage"
+    :total="total"
+    :per-page="perPage"
+    @page-changed="onPageClick($event)"
+  /> -->
 </template>
 
 <script>
 // import provide from 'vue'
 import axios from 'axios'
 import moment from 'moment'
+import '@ocrv/vue-tailwind-pagination/styles'
+import VueTailwindPagination from '@ocrv/vue-tailwind-pagination'
 // import CWidgetIncome from '../widgets/WidgetIncome.vue'
 // import AppOffcanvasTicketEdit from '../../components/AppOffcanvasTicketEdit.vue'
 
@@ -315,7 +348,7 @@ export default {
     // ModalOutcome,
     // ModalIncome,
     // ModalIncomeEdit,
-    // VueTailwindPagination,
+    VueTailwindPagination,
   },
   data() {
     return {
@@ -515,10 +548,12 @@ export default {
           // handle success
           this.allIncomes = response.data
           // console.log('this.allIncomes: ' + this.allIncomes)
-          // this.currentPage = response.data.page
-          // console.log('this.allIncomes: ' + JSON.stringify(this.currentPage))
-          // this.perPage = response.data.size
-          // this.total = response.data.total
+          this.currentPage = response.data.page
+          console.log('###this.currentPage:### ' + JSON.stringify(this.currentPage))
+          this.perPage = response.data.size
+          console.log('this.perPage: ' + JSON.stringify(this.perPage))
+          this.total = response.data.total
+          console.log('this.total: ' + JSON.stringify(this.total))
         })
         .catch((error) => console.log(error))
         // Calculate Sums of morning, evening and total Income of the Day
@@ -604,9 +639,9 @@ export default {
           }
 
           //
-          // this.currentPage = response.data.page
-          // this.perPage = response.data.size
-          // this.total = response.data.total
+          this.currentPage = response.data.page
+          this.perPage = response.data.size
+          this.total = response.data.total
           // console.log('this.allOUTcomes: ' + JSON.stringify(response.data))
         })
         .catch((error) => console.log(error))

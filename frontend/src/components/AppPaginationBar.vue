@@ -1,10 +1,14 @@
 <template>
-
-  <div class="row g-3 justify-content-center"> 
-      
+  <div class="row g-3 justify-content-center">
     <div class="col-md-2">
       <label class="visually-hidden" for="selectByMonth">SelectByMonth</label>
-      <select class="form-select form-select-sm" aria-label="Default select example" id="selectByMonth" name="selectByMonth" v-model="selectByMonth">
+      <select
+        class="form-select form-select-sm"
+        aria-label="Default select example"
+        id="selectByMonth"
+        name="selectByMonth"
+        v-model="selectByMonth"
+      >
         <!-- <option disabled value>Σερβ1...</option> -->
         <option :selected="month === 1" value="1">Ιανουάριος</option>
         <option :selected="month === 2" value="2">Φεβρουάριος</option>
@@ -24,7 +28,13 @@
     <div class="col-md-1">
       <label class="visually-hidden" for="selectByMonth">SelectByMonth</label>
       <!-- Year -->
-      <select class="form-select form-select-sm" aria-label="Default select example" id="selectByYear" name="selectByYear" v-model="selectByYear">
+      <select
+        class="form-select form-select-sm"
+        aria-label="Default select example"
+        id="selectByYear"
+        name="selectByYear"
+        v-model="selectByYear"
+      >
         <!-- <option disabled value>Σερβ1...</option> -->
         <option :selected="year === 2021" value="2021">2021</option>
         <option :selected="year === 2022" value="2022">2022</option>
@@ -38,7 +48,13 @@
     <div class="col-md-1">
       <label class="visually-hidden" for="perPage">perPage</label>
       <!-- Year -->
-      <select class="form-select form-select-sm" aria-label="Default select example" id="perPage" name="perPage" v-model="perPage">
+      <select
+        class="form-select form-select-sm"
+        aria-label="Default select example"
+        id="perPage"
+        name="perPage"
+        v-model="perPage"
+      >
         <!-- <option disabled value>Σερβ1...</option> -->
         <option :selected="perPage === 5" value="5">5</option>
         <option :selected="perPage === 10" value="10">10</option>
@@ -50,8 +66,13 @@
 
     <!-- Btn OutCome -->
     <div class="col-md-1">
-      <button class="btn btn-primary" @click="showIncomeByMonth()" type="submit">GO</button>
+      <button
+        class="btn btn-primary"
+        @click="showIncomeByMonth()"
+        type="submit"
+      >
+        GO
+      </button>
     </div>
   </div>
-
 </template>
