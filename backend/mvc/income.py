@@ -26,8 +26,8 @@ def income_get_all(db: Session, limit: int = 10, offset: int = 0 ):
     return income
 
 # Show a Specific income by date year: str, month: str,
-def income_show_by_date(year:str, month:str, db: Session, limit: int, offset: int = 0 ):
-    income = db.query(models.Income).filter(models.Income.date >= f'{year}-{month}-01', models.Income.date <= f'{year}-{month}-31').offset(offset).limit(limit).all()
+def income_show_by_date(year:str, month:str, db: Session):
+    income = db.query(models.Income).filter(models.Income.date >= f'{year}-{month}-01', models.Income.date <= f'{year}-{month}-31').all()
     return income
 
 # Show a Specific Income by id

@@ -15,16 +15,29 @@
 *** INCOME ***
 - Pagination does not work
 - Smart Table solution to look for
-- Edit Income not modal but with Offcanvas
+- Create new income not modal with Offcanvas
+- Edit Income but with Offcanvas
 - A solution to move all the code from computed to a method
-- set the correct date when the app is loaded
+- Set the correct date when the app is loaded
+- If click on Outcome, should show info about it
 - 
 
+
+
 *** OUTCOME ***
+
+*** CHARTS ***
+
+*** REPORTS ***
 
 *** STAFF ***
 
 *** DASHBOARD ***
+
+*** IDEAS ***
+- Get information for Income and Outcome from an Excell File or even Handwriten
+
+
 
 
 *** PROJECTS ***
