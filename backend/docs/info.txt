@@ -73,6 +73,10 @@ More info on(https://github.com/vueform/multiselect#styling)
 - npm install moment
 - npm install VueTailwindPagination
 
+--- FRONTEND ---
+- SamrtTable: https://vue-smart-table.netlify.app/getting-started.html#why-smart-table
+npm install vuejs-smart-table@next
+
 
 
 - VS Theme: "One Dark Pro Darker", "Noctis Azureus", 'Bluloco Dark theme', 'NoctisUva', 'Viow Flat', "Adapta Nikto"

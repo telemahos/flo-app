@@ -336,8 +336,8 @@
 // import provide from 'vue'
 import axios from 'axios'
 import moment from 'moment'
-import '@ocrv/vue-tailwind-pagination/styles'
-import VueTailwindPagination from '@ocrv/vue-tailwind-pagination'
+// import '@ocrv/vue-tailwind-pagination/styles'
+// import VueTailwindPagination from '@ocrv/vue-tailwind-pagination'
 // import CWidgetIncome from '../widgets/WidgetIncome.vue'
 // import AppOffcanvasTicketEdit from '../../components/AppOffcanvasTicketEdit.vue'
 
@@ -348,7 +348,7 @@ export default {
     // ModalOutcome,
     // ModalIncome,
     // ModalIncomeEdit,
-    VueTailwindPagination,
+    // VueTailwindPagination,
   },
   data() {
     return {
